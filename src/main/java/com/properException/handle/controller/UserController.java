@@ -2,6 +2,7 @@ package com.properException.handle.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.properException.handle.dto.ApiResponse;
@@ -20,6 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @PreAuthorize("#id == principal.username or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<UserDto>> createUser(
             @Valid @RequestBody UserDto dto) {
         UserDto created = userService.createUser(dto);
